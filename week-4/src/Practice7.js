@@ -28,7 +28,11 @@ const Practice7 = () => {
 
   const createMarkup = () => {
     const post = posts.filter( post => post.id === parseInt(postId) );
-    return {__html: post[0].content.rendered};
+    const markup =
+      `<h1 className="entry__title">${post[0].title.rendered}</h1>
+        <div className="entry__content">${post[0].content.rendered}</div>
+      `;
+    return {__html: markup};
   }
 
   useEffect(() => {
@@ -38,17 +42,22 @@ const Practice7 = () => {
   return (
     <>
     {!showPost ? (
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>
-            <Link slug={post.slug} id={post.id} text={post.title.rendered} postDetails={postDetails} />
-          </li>
-        ))}
-      </ul>
+      <article className="entry">
+        <h1>Posts lists</h1>
+        <div className="entry__content">
+          <ul>
+            {posts.map(post => (
+              <li key={post.id}>
+                <Link slug={post.slug} id={post.id} text={post.title.rendered} postDetails={postDetails} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
     ) : (
       <>
-        <p><a href="#" onClick={ () => setShowPost(false) }>Back to posts list</a>.</p>
-        <div dangerouslySetInnerHTML={createMarkup()} />
+        <p><a href="#home" onClick={ () => setShowPost(false) }>Back to posts list</a>.</p>
+        <article className="entry" dangerouslySetInnerHTML={createMarkup()} />
       </>
     )}
     </>
